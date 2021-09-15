@@ -9,6 +9,13 @@ const runner = require('./test-runner.js');
 
 const app = express();
 
+// Helmet
+const helmet = require('helmet');
+app.use(helmet());
+app.use(helmet.hidePoweredBy({setTo: 'PHP 7.4.3'}));
+const nocache = require('nocache');
+app.use(nocache());
+
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/assets', express.static(process.cwd() + '/assets'));
 app.use('/socket.io', express.static(process.cwd() + '/socket.io'));
