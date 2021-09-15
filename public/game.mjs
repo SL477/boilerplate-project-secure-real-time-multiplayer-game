@@ -13,12 +13,18 @@ const collectable = new Collectible({x: 1, y: 2, value: 5, id: 1});
 const clearGrid = () => {
     context.clearRect(0,0,canvas.width, canvas.height);
 };
+
+// Collectable
+const resetCollectable = () => {
+    collectable.x = Math.floor(Math.random() * 620);
+    collectable.y = Math.floor(Math.random() * 440) + 20;
+};
   
 const startGame = () => {
     player.x = canvas.width / 2;
     player.y = canvas.height / 2;
     player.score = 0;
-
+    resetCollectable();
 };
 
 startGame();
@@ -27,6 +33,7 @@ socket.emit("test", player);
 
 const updateGameArea = () => {
     clearGrid();
+    
 
     // Draw player
     context.fillStyle = "red";
@@ -36,6 +43,11 @@ const updateGameArea = () => {
     // Draw collectible
     context.fillStyle = "green";
     context.fillRect(collectable.x, collectable.y, 20, 20);
+
+    // Text
+    context.fillStyle = "purple";
+    context.font = "20px Arial";
+    context.fillText('Score: ' + player.score.toString(), 10, 20);
 };
 
 // Keyboard listener
@@ -60,6 +72,7 @@ document.addEventListener("keydown", (evt) => {
 
     if (player.collision(collectable)) {
         console.log("score");
+        resetCollectable();
     }
 });
   
