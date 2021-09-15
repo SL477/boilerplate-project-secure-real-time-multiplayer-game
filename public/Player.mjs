@@ -39,7 +39,7 @@ class Player {
     });
 
     let idx = arr.findIndex(a => {return a.id == this.id});
-    return idx;
+    return "Rank: " + (idx + 1).toString() + " / " + arr.length.toString();
   }
 }
 
