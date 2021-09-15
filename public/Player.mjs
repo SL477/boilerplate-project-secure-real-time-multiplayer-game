@@ -7,6 +7,7 @@ class Player {
   }
 
   movePlayer(dir, speed) {
+    dir = dir.toUpperCase();
     if (dir == 'UP') {
       this.y -= speed;
     }
@@ -33,7 +34,12 @@ class Player {
   }
 
   calculateRank(arr) {
+    arr.sort((i, j) => {
+      return j.score - i.score;
+    });
 
+    let idx = arr.findIndex(a => {return a.id == this.id});
+    return idx;
   }
 }
 

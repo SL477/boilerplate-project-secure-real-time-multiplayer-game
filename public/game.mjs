@@ -6,7 +6,7 @@ const canvas = document.getElementById('game-window');
 const context = canvas.getContext('2d');
 const SPEED = 10;
 
-const player = new Player({x: canvas.width / 2, y: canvas.height / 2, score: 0, id: 1});
+const player = new Player({x: canvas.width / 2, y: canvas.height / 2, score: 0, id: Date.now()});
 
 const collectable = new Collectible({x: 1, y: 2, value: 5, id: 1});
 
