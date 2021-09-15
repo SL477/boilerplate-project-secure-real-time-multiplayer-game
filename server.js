@@ -65,13 +65,29 @@ io.attach(server, {
   cookie: false,
 });
 
+let playerInfo = {};
+
 io.on("connection", socket => {
   console.log('user connected');
+  socket.id = Date.now();
   socket.on("test", msg => {
-    console.log('socket msg', msg);
-  })
+    console.log('socket msg', socket.id, msg);
+  });
+
+  socket.on("playerdata", msg => {
+    playerInfo[socket.id] = msg;
+    // console.log('playerInfo', playerInfo);
+    socket.emit('allplayers', playerInfo);
+  });
+
+  socket.on("disconnect", () => {
+    console.log('user disconnected', socket.id);
+    if (playerInfo[socket.id]) {
+      delete playerInfo[socket.id];
+    }
+  });
 });
-io.on("disconnect", () => console.log('user disconnected'));
+//io.on("disconnect", (d) => console.log('user disconnected', d));
 
 
 module.exports = app; // For testing

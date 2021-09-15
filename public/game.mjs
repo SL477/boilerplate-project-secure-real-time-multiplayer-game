@@ -31,6 +31,8 @@ startGame();
 console.log('player',player);
 socket.emit("test", player);
 
+let rank = '';
+
 const updateGameArea = () => {
     clearGrid();
     
@@ -48,6 +50,10 @@ const updateGameArea = () => {
     context.fillStyle = "purple";
     context.font = "20px Arial";
     context.fillText('Score: ' + player.score.toString(), 10, 20);
+    context.fillText(rank, 500, 20);
+
+    // Emit score, id
+    socket.emit("playerdata", {pid: player.id, score: player.score});
 };
 
 // Keyboard listener
@@ -74,6 +80,17 @@ document.addEventListener("keydown", (evt) => {
         console.log("score");
         resetCollectable();
     }
+});
+
+// Listen to player info
+socket.on('allplayers', msg => {
+    // convert from object to array
+    let arr = [];
+    Object.keys(msg).forEach(o => {
+        arr.push({id: msg[o].pid, score: msg[o].score});
+    });
+    //console.log(msg, arr);
+    rank = player.calculateRank(arr);
 });
   
 let interval = setInterval(updateGameArea, 20);
